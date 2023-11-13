@@ -1,5 +1,7 @@
+use chrono::prelude::*;
 use serde_derive::Deserialize;
 
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Forecast {
     pub approvedTime: String,
@@ -36,13 +38,16 @@ impl Forecast {
         (min_temp, max_temp)
     }
 
-    pub fn temperature(&self) -> Vec<f32> {
-        let mut temps: Vec<f32> = Vec::new();
-
+    pub fn temperature(&self) -> Vec<(f32, f32)> {
+        let mut temps: Vec<(f32, f32)> = Vec::new();
+        let now = Local::now();
         for ts in &self.timeSeries {
+            let time = ts.validTime.parse::<DateTime<Local>>().unwrap();
+            let diff = time - now;
+
             for parameter in &ts.parameters {
                 if parameter.name == "t" {
-                    temps.push(parameter.values[0]);
+                    temps.push((parameter.values[0], diff.num_hours() as f32));
                 }
             }
         }
@@ -50,12 +55,14 @@ impl Forecast {
     }
 }
 
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct TimeSeries {
     pub validTime: String,
     pub parameters: Vec<Parameter>,
 }
 
+#[allow(non_snake_case, dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct Parameter {
     name: String,

@@ -1,7 +1,6 @@
 extern crate drawille;
 
 use crate::forecast::{json, ForecastWrapper};
-use drawille::Canvas;
 
 pub struct WeatherClient {
     base_url: String,
