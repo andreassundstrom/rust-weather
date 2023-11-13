@@ -1,6 +1,6 @@
 # Vädret i Stockholm
 
-Exempelprojekt i Rust som visar aktuellt väder i Stockholm. Anropar SMHIs väder-api.
+Exempelprojekt i Rust som visar aktuellt väder. Anropar SMHIs väder-api. Position hämtas med hjälp as windows positions-api.
 
 `cargo run`
 
