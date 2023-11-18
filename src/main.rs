@@ -15,5 +15,6 @@ fn main() {
     );
 
     let mut forecast = weather_client.get_forecast();
-    forecast.draw_forecast();
+    let forecast_text = forecast.draw_forecast();
+    println!("{}", forecast_text);
 }

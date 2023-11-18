@@ -9,7 +9,20 @@ pub struct Forecast {
     pub timeSeries: Vec<TimeSeries>,
 }
 
+#[allow(non_snake_case)]
 impl Forecast {
+    pub fn new(
+        approvedTime: String,
+        referenceTime: String,
+        timeSeries: Vec<TimeSeries>,
+    ) -> Forecast {
+        Forecast {
+            approvedTime,
+            referenceTime,
+            timeSeries,
+        }
+    }
+
     pub fn get_current_temperature(&self) -> f32 {
         let mut temp: f32 = 0.0;
         for parameter in &self.timeSeries[0].parameters {
@@ -62,6 +75,16 @@ pub struct TimeSeries {
     pub parameters: Vec<Parameter>,
 }
 
+#[allow(non_snake_case)]
+impl TimeSeries {
+    pub fn new(validTime: String, parameters: Vec<Parameter>) -> TimeSeries {
+        TimeSeries {
+            validTime,
+            parameters,
+        }
+    }
+}
+
 #[allow(non_snake_case, dead_code)]
 #[derive(Deserialize, Debug)]
 pub struct Parameter {
@@ -70,4 +93,23 @@ pub struct Parameter {
     level: f32,
     unit: String,
     values: Vec<f32>,
+}
+
+#[allow(non_snake_case)]
+impl Parameter {
+    pub fn new(
+        name: String,
+        levelType: String,
+        level: f32,
+        unit: String,
+        values: Vec<f32>,
+    ) -> Parameter {
+        Parameter {
+            name,
+            levelType,
+            level,
+            unit,
+            values,
+        }
+    }
 }

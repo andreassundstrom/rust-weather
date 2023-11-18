@@ -30,7 +30,7 @@ impl ForecastWrapper {
         }
     }
 
-    pub fn draw_forecast(&mut self) {
+    pub fn draw_forecast(&mut self) -> String {
         // y-axis
         self.canvas.line(P_LEFT, P_TOP, P_LEFT, HEIGHT - P_BOTTOM);
 
@@ -42,22 +42,19 @@ impl ForecastWrapper {
             P_TOP + HEIGHT - P_BOTTOM,
         );
 
-        let half = self.max_temp / self.min_temp;
+        let half = (self.max_temp + self.min_temp) / 2.0;
 
         // middle y-scale text
-        self.canvas.text(
+        let y_pos = scale_value(
+            half,
+            self.min_temp,
+            self.max_temp,
             0,
-            P_TOP
-                + scale_value(
-                    half,
-                    self.min_temp,
-                    self.max_temp,
-                    0,
-                    (HEIGHT - P_BOTTOM - P_TOP).try_into().unwrap(),
-                ) as u32,
-            10,
-            &format!("{:.1}", half),
+            (HEIGHT - P_BOTTOM - P_TOP).try_into().unwrap(),
         );
+
+        self.canvas
+            .text(0, P_TOP + y_pos as u32, 10, &format!("{:.1}", half));
 
         // max y-scale
         self.canvas
@@ -100,6 +97,6 @@ impl ForecastWrapper {
             }
         }
 
-        println!("{}", self.canvas.frame());
+        self.canvas.frame()
     }
 }

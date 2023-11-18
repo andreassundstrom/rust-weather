@@ -6,7 +6,7 @@ pub fn scale_value(
     max_range: i32,
 ) -> f32 {
     if value > max_value || value < min_value {
-        panic!("Value out of range")
+        panic!("Value '{value}' is out of range > '{max_value}' or < '{min_value}'");
     }
     let norm_value = (value - min_value) / (max_value - min_value);
     norm_value * max_range as f32 + min_range as f32
